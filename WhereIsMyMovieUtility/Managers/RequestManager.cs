@@ -108,10 +108,10 @@ namespace WhereIsMyMovieUtility.Managers
             var resposeFromExension = response.Content.GetDocumentFromString<T>(response.ContentType == "application/json" ? DeserializeFromString.ContentType.Json : DeserializeFromString.ContentType.Xml);
             return resposeFromExension;
         }
-        public async Task PostAsyncWithRestClient<T>(T data,string baseAdress,string requestUri,Dictionary<string,string> headers,string )
+        public async Task PostAsyncWithRestClient<T>(T data,string baseAdress,string requestUri,Dictionary<string,string> headers,string a)
         {
             var client = new RestClient(baseAdress);
-            var request = new RestRequest()
+            var request = new RestRequest();
         }
     }
 }

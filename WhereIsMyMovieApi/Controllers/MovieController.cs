@@ -1,32 +1,49 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using WhereIsMyMovieBusiness.Datas;
+using WhereIsMyMovieBusiness.Dtos;
 using WhereIsMyMovieBusiness.Interfaces;
-using WhereIsMyMovieBusiness.Services;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WhereIsMyMovieApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MovieController : Controller
+    public class MovieController : ControllerBase
     {
         private readonly IMongoDB<Movie> _mongoClient;
         public MovieController(IMongoDB<Movie> mongoDB)
         {
             _mongoClient = mongoDB;
         }
-        // GET: /<controller>/
-        public IActionResult Index()
+        public ActionResult<MovieResponseDto> Get(int Id)
         {
-            //_mongoClient.Create(new Movie
-            //{
-            //    Id = "1"
-            //});
-          var result =  _mongoClient.Get("1");
-            string aa = "aaa";
-            return View();
-        }        
+            GeneralResponse<MovieResponseDto> response = new GeneralResponse<MovieResponseDto>();
 
+            var result = _mongoClient.Get(Id.ToString());
+            if (result == null)
+            {
+                response.Error = new ErrorDto
+                {
+                    ErrorCode = System.Net.HttpStatusCode.NotFound,
+                    ErrorMessage = "The movie that you looking for is not in the store.",
+                };
+                return NotFound(response);
+            }
+            else
+            {
+                response.Data = new MovieResponseDto
+                {
+                    MovieName = result.Name,
+                    PublishDate = result.PubDate,
+
+                };
+                return Ok(response);
+            }
+
+        }
     }
 }

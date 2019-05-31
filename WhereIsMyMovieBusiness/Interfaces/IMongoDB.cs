@@ -11,6 +11,7 @@ namespace WhereIsMyMovieBusiness.Interfaces
         //void CloseConnection(string connectionString);
         T Get(string Id);
 
+        T GetBytitle(string title);
 
         List<T> GetAll();
 
@@ -42,7 +43,7 @@ namespace WhereIsMyMovieBusiness.Interfaces
         /// <typeparam name="T">Generic type </typeparam>
         /// <param name="Id">Id</param>
         /// <returns>T result</returns>
-        Task<T> GetAsync(string Id);        
+        Task<T> GetAsync(string Id);
         Task<List<T>> Search(Expression<Func<T, bool>> expresion);
         /// <summary>
         /// GetAllList from MongoDb via async
@@ -58,6 +59,8 @@ namespace WhereIsMyMovieBusiness.Interfaces
         Task DeleteAsync(T deleteItem);
 
         Task DeleteManyAsync(List<T> deleteList);
+
+        Task<List<T>> GetByTitleAsync(string title);
         #endregion
 
 

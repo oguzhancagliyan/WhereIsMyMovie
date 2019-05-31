@@ -151,5 +151,15 @@ namespace WhereIsMyMovieBusiness.Services
             throw new NotImplementedException();
         }
 
+        public Movie GetBytitle(string title)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<Movie>> GetByTitleAsync(string title)
+        {
+            var result = await _movies.FindAsync(b => b.Name == title);
+            return await result.ToListAsync();
+        }
     }
 }
